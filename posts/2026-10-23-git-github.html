@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오늘 아이펠에서 Git과 GitHub를 배웠다 · basco.log</title>
+  <meta name="description" content="모두의연구소 아이펠 수업에서 Git과 GitHub를 배운 날의 기록">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../">basco<span>.log</span></a>
+      <nav>
+        <a href="../">글 목록</a>
+        <a href="https://github.com/basco-git">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article>
+      <div class="meta">
+        <time datetime="2026-10-23">2026년 10월 23일</time>
+        <span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">아이펠</span>
+      </div>
+      <h1>오늘 아이펠에서 Git과 GitHub를 배웠다</h1>
+
+      <p>오늘 모두의연구소 아이펠 수업에서 <strong>Git과 GitHub</strong>를 배웠다.
+      솔직히 이름만 들어 봤지 제대로 써 본 적은 없었는데, 직접 해 보니 생각보다 훨씬 재미있었다!</p>
+
+      <div class="callout">
+        이 블로그도 오늘 배운 내용으로 만들었다. 로컬 폴더를 GitHub 저장소에 연결하고,
+        커밋하고, 푸시해서 GitHub Pages로 배포까지 했다. 🎉
+      </div>
+
+      <h2>Git은 뭐고, GitHub는 뭘까</h2>
+      <ul>
+        <li><strong>Git</strong>: 내 컴퓨터에서 파일의 변경 기록을 저장하고 관리하는 버전 관리 도구</li>
+        <li><strong>GitHub</strong>: Git 저장소를 인터넷에 올려 두고 다른 사람과 공유하고 협업할 수 있는 서비스</li>
+      </ul>
+      <p>Git이 "세이브 포인트를 만드는 기능"이라면, GitHub는 그 세이브 파일을 올려 두는 "클라우드" 같은 느낌이었다.</p>
+
+      <h2>오늘 써 본 명령어</h2>
+<pre><code># 원격 저장소 연결
+git remote add origin https://github.com/basco-git/my-blog.git
+
+# 변경 사항 담기 → 기록하기 → 올리기
+git add .
+git commit -m "첫 글 작성"
+git push -u origin main</code></pre>
+      <p><code>add</code>로 올릴 파일을 고르고, <code>commit</code>으로 기록을 남기고,
+      <code>push</code>로 GitHub에 올리는 흐름이 이제 조금 손에 익었다.</p>
+
+      <h2>재미있었던 점</h2>
+      <ul>
+        <li>명령어 몇 줄로 내 컴퓨터의 파일이 GitHub에 올라가는 게 신기했다.</li>
+        <li>커밋 기록이 쌓이는 걸 보니 작업 일지를 쓰는 느낌이 들었다.</li>
+        <li>무엇보다 내가 만든 페이지가 실제 웹 주소로 열리는 순간이 제일 짜릿했다!</li>
+      </ul>
+
+      <h2>다음에 해 보고 싶은 것</h2>
+      <p>브랜치를 만들어서 작업하고, Pull Request로 합치는 협업 흐름도 익혀 보고 싶다.
+      그리고 이 블로그에 아이펠에서 배우는 내용을 꾸준히 기록해 나갈 생각이다.</p>
+
+      <a class="back" href="../">← 글 목록으로</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2026 basco · GitHub Pages로 배포</div>
+  </footer>
+</body>
+</html>
