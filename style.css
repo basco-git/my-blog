@@ -166,6 +166,99 @@ pre code { background: none; padding: 0; }
   margin: 28px 0;
 }
 
+article h3 { font-size: 18px; margin: 28px 0 8px; }
+
+.hero-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 56px;
+  background: linear-gradient(135deg, var(--accent-soft), var(--code-bg));
+  border-radius: 18px;
+  padding: 36px 0;
+  margin: 0 0 28px;
+}
+.hero-banner .arrow { font-size: 36px; color: var(--accent); }
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.tool {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tool span { font-size: 28px; }
+.tool small { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+.bubble {
+  max-width: 80%;
+  padding: 10px 16px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.bubble.me {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.bubble.ai {
+  align-self: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+}
+.bubble.ai::before { content: "🤖 "; }
+
+table.compare {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin: 16px 0;
+}
+.compare th, .compare td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+.compare th { color: var(--muted); font-weight: 600; }
+.compare td:first-child { white-space: nowrap; font-weight: 600; }
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 8px;
+}
+.flow span {
+  background: var(--accent-soft);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+.flow i { color: var(--accent); font-style: normal; font-weight: 700; }
+
+.sign { color: var(--muted); font-style: italic; }
+
 .back { display: inline-block; margin-top: 32px; font-size: 15px; }
 
 /* Footer */
