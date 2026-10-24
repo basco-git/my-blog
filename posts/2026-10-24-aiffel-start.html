@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>[아이펠 AI에이전트 3기] start !! · basco.log</title>
+  <title>[아이펠 AI에이전트 3기] start !! · AI 도전 일지</title>
   <meta name="description" content="HR 15년 차의 새로운 도전, 모두의연구소 아이펠 AI에이전트 3기 시작 기록">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="../style.css">
@@ -11,10 +11,10 @@
 <body>
   <header class="site-header">
     <div class="wrap">
-      <a class="logo" href="../">basco<span>.log</span></a>
+      <a class="logo" href="../">AI 도전<span> 일지</span></a>
       <nav>
         <a href="../">글 목록</a>
-        <a href="https://github.com/basco-git">GitHub</a>
+        <a href="https://github.com/basco-git/my-blog">GitHub</a>
       </nav>
     </div>
   </header>
@@ -29,14 +29,12 @@
       </div>
       <h1>[아이펠 AI에이전트 3기] start !! 🚀</h1>
 
-      <div class="hero-banner" aria-hidden="true">
-        <span>👔</span><span class="arrow">→</span><span>🤖</span>
-      </div>
+      <!-- 본문은 같은 이름의 .md(Velog용)와 내용·구조를 맞춘다 -->
+      <p class="emoji-line">👔 ➡️ 🤖</p>
 
       <p>안녕하세요! 👋 모두의연구소 <strong>아이펠 AI에이전트 3기</strong>로 새로운 출발을 했습니다.<br>
       첫 주에 한 일들을 가볍게 정리해 봅니다.</p>
 
-      <!-- 1 -->
       <h2>1. HR 15년 차, 갑자기 AI에이전트? 🤔</h2>
       <p>네, 맞습니다. 지금까지 <strong>인사(HR) 업무만</strong> 해 왔어요. 채용, 평가, 보상, 제도 설계… 엑셀과 결재 문서가 제 무기였죠.</p>
 
@@ -46,53 +44,53 @@
   newSkill: "AI 에이전트", // 👈 오늘부터 추가!
 };</code></pre>
 
-      <p>"AI가 HR 일을 바꾼다"는 말을 듣기만 하다가, 이번에는 <strong>직접 만들어 보는 쪽</strong>이 되어 보기로 했습니다.
+      <p>"AI가 HR 일을 바꾼다"는 말을 듣기만 하다가, 이번에는 <strong>직접 만들어 보는 쪽</strong>이 되어 보기로 했습니다.<br>
       솔직히 떨리긴 하지만, 그보다 설렘이 더 커요. ✨</p>
 
-      <div class="callout">
-        🎯 <strong>목표</strong>: 내가 제일 잘 아는 HR 업무에 AI 에이전트를 붙여서, 진짜로 일이 편해지는 경험 만들기!
-      </div>
+      <blockquote>
+        <p>🎯 <strong>목표</strong>: 내가 제일 잘 아는 HR 업무에 AI 에이전트를 붙여서, 진짜로 일이 편해지는 경험 만들기!</p>
+      </blockquote>
 
-      <!-- 2 -->
       <h2>2. 업무 툴 셋팅 🧰</h2>
       <p>수업 전에 깔고 가입하고 연결한 것들입니다. 짧게만!</p>
 
-      <div class="tool-grid">
-        <div class="tool"><span>🏫</span><b>ZEP</b><small>가상 강의실 &amp; 출석</small></div>
-        <div class="tool"><span>📒</span><b>Notion</b><small>노트 &amp; 학습 기록</small></div>
-        <div class="tool"><span>💬</span><b>Discord</b><small>동기들과 소통</small></div>
-        <div class="tool"><span>🌿</span><b>Git</b><small>내 PC의 버전 관리</small></div>
-        <div class="tool"><span>🐙</span><b>GitHub</b><small>코드 보관 &amp; 블로그 배포</small></div>
-        <div class="tool"><span>🤖</span><b>Claude</b><small>AI 페어 프로그래머</small></div>
-      </div>
+      <table>
+        <thead><tr><th>툴</th><th>용도</th></tr></thead>
+        <tbody>
+          <tr><td>🏫 <strong>ZEP</strong></td><td>가상 강의실 &amp; 출석</td></tr>
+          <tr><td>📒 <strong>Notion</strong></td><td>노트 &amp; 학습 기록</td></tr>
+          <tr><td>💬 <strong>Discord</strong></td><td>동기들과 소통</td></tr>
+          <tr><td>🌿 <strong>Git</strong></td><td>내 PC의 버전 관리</td></tr>
+          <tr><td>🐙 <strong>GitHub</strong></td><td>코드 보관 &amp; 블로그 배포</td></tr>
+          <tr><td>🤖 <strong>Claude</strong></td><td>AI 페어 프로그래머</td></tr>
+        </tbody>
+      </table>
 
-      <!-- 3 -->
       <h2>3. Claude Code로 GitHub 연결해 보기 🔗</h2>
       <p>제일 궁금했던 부분! "코드 모르는 사람도 AI한테 말로 시키면 GitHub에 올릴 수 있을까?"</p>
       <p>결론: <strong>됩니다.</strong> 😎 실제로 이렇게 대화했어요.</p>
 
-      <div class="chat">
-        <div class="bubble me">지금 이 폴더랑 GitHub 레포지토리 연결하고 싶어</div>
-        <div class="bubble ai">원격 저장소를 <code>origin</code>으로 연결했어요!</div>
-        <div class="bubble me">푸시해줘</div>
-        <div class="bubble ai">첫 커밋을 만들어서 <code>main</code>에 푸시했어요 ✅</div>
-        <div class="bubble me">이제 블로그 만들어줘. 배포까지!</div>
-        <div class="bubble ai">블로그를 만들고 GitHub Pages로 배포했어요 🎉</div>
-      </div>
+      <blockquote>
+        <p>🙋 <strong>나</strong>: 지금 이 폴더랑 GitHub 레포지토리 연결하고 싶어</p>
+        <p>🤖 <strong>Claude</strong>: 원격 저장소를 <code>origin</code>으로 연결했어요!</p>
+        <p>🙋 <strong>나</strong>: 푸시해줘</p>
+        <p>🤖 <strong>Claude</strong>: 첫 커밋을 만들어서 <code>main</code>에 푸시했어요 ✅</p>
+        <p>🙋 <strong>나</strong>: 이제 블로그 만들어줘. 배포까지!</p>
+        <p>🤖 <strong>Claude</strong>: 블로그를 만들고 GitHub Pages로 배포했어요 🎉</p>
+      </blockquote>
 
       <p>뒤에서 Claude가 실행해 준 명령어는 사실 이게 전부였어요.</p>
-<pre><code>git remote add origin https://github.com/basco-git/my-blog.git
+<pre><code>git remote add origin https://github.com/&lt;내-아이디&gt;/my-blog.git
 git add .
 git commit -m "Initial commit"
 git push -u origin main</code></pre>
 
-      <div class="callout">
-        💡 <strong>느낀 점</strong>: Claude가 다 해 주긴 하지만, <code>add → commit → push</code>가 무슨 뜻인지 알고 시키니까 훨씬 덜 무서웠다.
-      </div>
+      <blockquote>
+        <p>💡 <strong>느낀 점</strong>: Claude가 다 해 주긴 하지만, <code>add → commit → push</code>가 무슨 뜻인지 알고 시키니까 훨씬 덜 무서웠다.</p>
+      </blockquote>
 
-      <!-- 4 -->
       <h2>4. my-domain 작업 — 내 도메인을 AI에게 설명하기 📝</h2>
-      <p>AI 에이전트를 잘 쓰려면 먼저 <strong>"내 일이 뭔지"를 AI가 알아듣게 정리</strong>해야 한대요.
+      <p>AI 에이전트를 잘 쓰려면 먼저 <strong>"내 일이 뭔지"를 AI가 알아듣게 정리</strong>해야 한대요.<br>
       그래서 제 도메인인 <strong>성과관리 제도 개편</strong>을 골랐습니다.</p>
 
       <h3>😩 지금 문제 (현행)</h3>
@@ -103,23 +101,17 @@ git push -u origin main</code></pre>
       </ul>
 
       <h3>🧠 네 가지 생각 도구로 쪼개 보기</h3>
-      <table class="compare">
+      <table>
         <thead><tr><th>단계</th><th>내가 정리한 것</th></tr></thead>
         <tbody>
-          <tr><td>🔪 분해</td><td>목표 설정 · 분기 점검 · 평가 방식 · 결과 피드백 · 보상 연계</td></tr>
-          <tr><td>🔍 패턴</td><td>불만의 원인은 3가지: 목표 연결 부재, 과정 점검 부재, 결과 설명 부재</td></tr>
-          <tr><td>🧩 추상화</td><td>성과관리 = 연결된 목표 + 분기 점검 + 근거 있는 평가</td></tr>
-          <tr><td>⚙️ 알고리즘</td><td>아래 흐름 참고 👇</td></tr>
+          <tr><td>🔪 <strong>분해</strong></td><td>목표 설정 · 분기 점검 · 평가 방식 · 결과 피드백 · 보상 연계</td></tr>
+          <tr><td>🔍 <strong>패턴</strong></td><td>불만의 원인은 3가지: 목표 연결 부재, 과정 점검 부재, 결과 설명 부재</td></tr>
+          <tr><td>🧩 <strong>추상화</strong></td><td>성과관리 = 연결된 목표 + 분기 점검 + 근거 있는 평가</td></tr>
+          <tr><td>⚙️ <strong>알고리즘</strong></td><td>아래 흐름 참고 👇</td></tr>
         </tbody>
       </table>
 
-      <div class="flow">
-        <span>🏢 회사 목표 확정</span><i>→</i>
-        <span>🙋 개인 목표 연결</span><i>→</i>
-        <span>📅 분기 체크인</span><i>→</i>
-        <span>📊 연말 평가</span><i>→</i>
-        <span>🗣️ 결과 면담·이의제기</span>
-      </div>
+      <p><strong>🏢 회사 목표 확정</strong> → <strong>🙋 개인 목표 연결</strong> → <strong>📅 분기 체크인</strong> → <strong>📊 연말 평가</strong> → <strong>🗣️ 결과 면담·이의제기</strong></p>
 
       <h3>📎 실제로 작성한 프롬프트</h3>
       <p>위 내용을 이렇게 프롬프트로 정리했어요. 출력 형식과 검증 기준까지 넣은 게 포인트!</p>
@@ -144,16 +136,16 @@ git push -u origin main</code></pre>
 설명할 수 있다"고 평가할 것.</code></pre>
 
       <h2>마무리 🌱</h2>
-      <p>툴 깔고, GitHub 연결하고, 내 일을 AI 언어로 바꿔 본 첫 주였습니다.
+      <p>툴 깔고, GitHub 연결하고, 내 일을 AI 언어로 바꿔 본 첫 주였습니다.<br>
       HR 사람의 AI에이전트 도전기, 앞으로도 가볍게 기록해 볼게요!</p>
-      <p class="sign">To be continued… 🏃💨</p>
+      <p><em>To be continued… 🏃💨</em></p>
 
       <a class="back" href="../">← 글 목록으로</a>
     </article>
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">© 2026 basco · GitHub Pages로 배포</div>
+    <div class="wrap">© 2026 AI 도전 일지 · GitHub Pages로 배포</div>
   </footer>
 </body>
 </html>
