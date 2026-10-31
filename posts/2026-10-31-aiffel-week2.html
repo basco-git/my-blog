@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[아이펠 AI에이전트 3기] 2주차, localhost는 나만 보여요 · AI 도전 일지</title>
+  <meta name="description" content="게임 세 개와 Todo 앱으로 화면부터 DB, 배포까지 웹 서비스 한 바퀴를 돌아본 아이펠 2주차 기록">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../">AI 도전<span> 일지</span></a>
+      <nav>
+        <a href="../">글 목록</a>
+        <a href="https://github.com/basco-git/my-blog">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article>
+      <div class="meta">
+        <time datetime="2026-10-31">2026년 10월 31일</time>
+        <span class="tag">아이펠</span>
+        <span class="tag">AI에이전트</span>
+        <span class="tag">회고</span>
+      </div>
+      <h1>[아이펠 AI에이전트 3기] 2주차, localhost는 나만 보여요 🙈</h1>
+
+      <!-- 본문은 같은 이름의 .md(Velog용)와 내용·구조를 맞춘다 -->
+      <p class="emoji-line">🎮 ➡️ 🗄️ ➡️ 🌐</p>
+
+      <p>안녕하세요! 👋 아이펠 AI에이전트 3기, 벌써 <strong>2주차</strong>입니다.<br>
+      이번 주는 화면에서 시작해 DB와 배포까지, 웹 서비스 한 바퀴를 돌아본 한 주였어요.</p>
+
+      <h2>1. 이번 주에 배운 것: 웹 서비스 한 바퀴 🗺️</h2>
+      <p>이번 주 수업은 네 개의 교안으로 이어졌어요. 순서대로 따라가면 <strong>화면 → 도구 → 저장 → 공개</strong>로 서비스 하나가 완성되는 흐름이에요.</p>
+
+      <table>
+        <thead><tr><th>교안</th><th>한 줄 요약</th></tr></thead>
+        <tbody>
+          <tr><td>🧱 <strong>HTML·CSS·JS 세 겹</strong></td><td>웹페이지는 구조·표현·동작 세 겹. 겹을 나눠 말하면 AI가 고칠 범위가 좁아져요</td></tr>
+          <tr><td>🧰 <strong>프레임워크</strong></td><td>유명한 도구가 아니라 내 조건에 맞는 도구 고르기. 목업 JSON으로 화면 먼저</td></tr>
+          <tr><td>🗄️ <strong>백엔드와 DB</strong></td><td>요청 → 처리 → 응답, 그리고 새로고침해도 남는 데이터</td></tr>
+          <tr><td>🌐 <strong>네트워크와 배포</strong></td><td>내 컴퓨터에서만 돌던 서비스를 누구나 여는 주소로</td></tr>
+        </tbody>
+      </table>
+
+      <p>제일 기억에 남는 장면은 배포 수업의 첫 장면이었어요.</p>
+
+      <blockquote>
+        <p>🙋 <strong>나</strong>: 이거 봐! 내가 만든 Todo 앱이야. <code>http://localhost:3000</code></p>
+        <p>🙋 <strong>친구</strong>: 안 열리는데? "이 사이트에 연결할 수 없음"이라고 떠.</p>
+      </blockquote>
+
+      <p><code>localhost</code>는 "지금 이 주소를 입력한 바로 그 컴퓨터"라는 뜻이라, 친구가 열면 <strong>친구 컴퓨터</strong>를 찾아간대요. 내 앱은 나만 보고 있었던 거죠. 🙈</p>
+
+      <blockquote>
+        <p>💡 <strong>HR식으로 이해하기</strong>: <strong>인증</strong>은 사원증 확인("누구세요?"), <strong>인가</strong>는 결재 권한 확인("이 문서를 볼 권한이 있나요?")이에요. 출입은 했어도 아무 서류나 열어 보면 안 되는 것처럼, 로그인했다고 남의 데이터를 볼 수 있으면 안 돼요.</p>
+      </blockquote>
+
+      <h2>2. 게임 세 개 만들기 🎮</h2>
+      <p>배운 걸 바로 써 보려고 게임을 세 개 만들었어요. 매번 조금씩 다른 방식으로요.</p>
+
+      <table>
+        <thead><tr><th>게임</th><th>한 줄 소개</th><th>이번에 해 본 것</th></tr></thead>
+        <tbody>
+          <tr><td>🐹 <strong>햄스터 서바이벌</strong></td><td>오염된 도시에서 몬스터를 사냥하는 햄스터 RPG</td><td>만들고 GitHub Pages로 배포까지</td></tr>
+          <tr><td>🍜 <strong>루이의 라면가게</strong></td><td>말티즈 루이와 3분 안에 주문대로 라면 끓이기</td><td><strong>짝 프로그래밍</strong>: 짝꿍의 프롬프트로 대신 개발</td></tr>
+          <tr><td>🗼 <strong>타워 브레이크</strong></td><td>부위를 강화하며 탑 1~10층을 공략하는 픽셀 RPG</td><td><strong>PRD 먼저</strong> 쓰고 개발</td></tr>
+        </tbody>
+      </table>
+
+      <h3>🍜 짝꿍의 프롬프트로 개발하기</h3>
+      <p>라면가게는 조금 특별했어요. <strong>드라이버</strong>(프롬프트를 받아 실제로 Claude에게 시키는 사람)와 <strong>네비게이터</strong>(무엇을 만들지 말로 전하는 사람)로 역할을 나눠 진행하고, 중간에 역할을 바꿨어요.<br>
+      내 머릿속 그림이 아니라 <strong>남의 머릿속 그림</strong>을 AI에게 옮겨야 하니, 질문을 훨씬 많이 하게 되더라고요.<br>
+      사진을 바탕으로 3D 캐릭터를 만들어 달라고 했다가 시간과 토큰이 엄청 들었던 것도 좋은 경험이었어요. 😅</p>
+
+      <h3>🗼 PRD 먼저 쓰고 만들기</h3>
+      <p>타워 브레이크는 교안에서 배운 대로 <strong>PRD(제품 요구사항 문서)부터</strong> 썼어요. 기술 스택, 해상도, 몬스터 크기, 디자인 방향을 하나씩 확정하고 시작하니 중간에 방향이 흔들리지 않았어요.</p>
+
+      <blockquote>
+        <p>🤖 "마일스톤마다 자체 테스트 후 진행해 줘"라고 했더니, Claude가 <strong>브라우저 자동 테스트를 만들어 탑 10층을 직접 공략</strong>했어요. 벽 속에 생긴 목표물, 미로에 갇힌 관리자 같은 버그를 제가 플레이하기도 전에 잡아냈습니다.</p>
+      </blockquote>
+
+      <blockquote>
+        <p>💡 <strong>느낀 점</strong>: 테트리스는 이름만 말해도 통하지만, 내 게임은 <strong>규칙을 내가 적어야</strong> 해요. 기준이 없으면 결과가 이상해도 뭐가 틀렸는지 판단할 수 없으니까요. 인사 제도 설계할 때 규정부터 쓰는 것과 똑같았어요.</p>
+      </blockquote>
+
+      <h2>3. Todo 앱으로 첫 풀 사이클 🔁</h2>
+      <p>이번 주의 메인 과제! <strong>회원가입, 기록 남기기, 실제 DB 연결, 배포까지</strong> 서비스 한 사이클을 처음으로 끝까지 돌아 봤어요.</p>
+
+      <p><strong>💻 길 A: 내 컴퓨터(SQLite)</strong> → <strong>☁️ 길 B: Supabase + 로그인 + RLS</strong> → <strong>🌐 Render 배포</strong></p>
+
+      <p>기능은 할 일 추가·완료·삭제에 마감일, 태그, 오늘의 할 일, 검색, 그리고 <strong>기간 재설정(미룬 이유와 횟수 기록)</strong>까지 넣었어요. 미룬 횟수가 쌓이는 걸 보면 반성하게 됩니다. 😇</p>
+
+      <p>길 A에서 길 B로는 설정 한 줄로 바꿀 수 있게 만들었어요. 화면과 API 코드는 그대로 두고 저장소만 갈아 끼우는 방식이에요.</p>
+<pre><code># .env
+DB_BACKEND=sqlite     # 길 A: 내 컴퓨터의 todo.db
+DB_BACKEND=supabase   # 길 B: 클라우드 DB + 로그인</code></pre>
+
+      <h3>😵 솔직히, 여기가 제일 어려웠어요</h3>
+      <p>DB 연결과 배포는 <strong>이해도 잘 안 되고</strong> 정말 많이 헤맸어요. 기억에 남는 장면들입니다.</p>
+
+      <table>
+        <thead><tr><th>막힌 곳</th><th>무슨 일이 있었나</th><th>배운 것</th></tr></thead>
+        <tbody>
+          <tr><td>🗄️ Supabase 대시보드</td><td>안내와 화면이 달라서 설정 위치를 한참 찾음</td><td>계정·키 확인은 AI가 대신 못 해요. 사람 몫!</td></tr>
+          <tr><td>📋 SQL Editor</td><td>파일 <strong>내용</strong> 대신 파일 <strong>경로</strong>를 붙여 넣고 오류 😂</td><td>에러가 나면 일단 내가 뭘 넣었는지부터</td></tr>
+          <tr><td>🔗 Render 연결</td><td>저장소 연결 화면에서 막힘</td><td>공개 저장소 주소를 붙여 넣는 방법으로 해결</td></tr>
+          <tr><td>📧 인증 메일</td><td>배포했는데 가입 메일 링크가 <code>localhost</code>로 감</td><td>코드 밖 설정(Site URL)도 함께 바꿔야 해요</td></tr>
+          <tr><td>😴 첫 접속</td><td>무료 서버라 15분 쉬면 잠들어 30초~1분 걸림</td><td>고장이 아니에요. 시연 전엔 미리 깨워 두기</td></tr>
+        </tbody>
+      </table>
+
+      <p>그래도 <strong>로그인한 사람은 자기 할 일만 보이는지(RLS)</strong>를 계정 두 개로 확인하던 순간은 꽤 짜릿했어요. B 계정으로 들어가니 A의 할 일이 0개! ✅</p>
+
+      <h3>👥 짝꿍과 서로 코드 리뷰하기</h3>
+      <p>마지막으로 짝을 정해 서로의 GitHub를 공유하고, <strong>Claude로 상대 코드를 리뷰해서 리뷰 내용을 전달</strong>하는 과제도 했어요.<br>
+      짝꿍은 Todo 앱에 <strong>구글 캘린더 연동</strong>까지 도전하고 있었어요. 할 일을 캘린더와 이어 준다니, 저는 생각도 못 해 본 아이디어였어요. 👀<br>
+      외부 서비스를 연결하는 건 꽤 까다로운 작업이라, 리뷰하면서 저도 덩달아 공부가 됐어요.<br>
+      같은 과제를 받아도 <strong>어디까지 상상하느냐는 사람마다 이렇게 다르구나</strong> 싶었습니다.</p>
+
+      <blockquote>
+        <p>💡 <strong>느낀 점</strong>: 어렵고 헷갈렸지만, 내가 만든 앱이 <strong>진짜 인터넷 주소에서 열리고, 새로고침해도 데이터가 남는 걸</strong> 보니 정말 뿌듯했어요. 처음으로 한 바퀴를 끝까지 돌아 보니 오히려 의지가 더 불타오릅니다. 🔥</p>
+      </blockquote>
+
+      <h2>4. 내 HR 앱, 구조도부터 그려 봤더니 🧩</h2>
+      <p>이번 주에 배운 걸 바탕으로, 계획하던 <strong>HR 앱의 서비스 구조도</strong>를 대략 그려 봤어요. (개인 프로젝트라 자세한 건 비밀 🤫)</p>
+      <p>처음엔 "화면 몇 개 만들면 되겠지" 했는데, 그려 보니 칸이 줄줄이 늘어나더라고요.</p>
+
+      <p><strong>🖥️ 화면</strong> → <strong>🔐 로그인·권한</strong> → <strong>⚙️ 서버</strong> → <strong>🗄️ DB</strong> → <strong>🌐 배포</strong> → <strong>🛡️ 보안 점검</strong></p>
+
+      <p>특히 HR 데이터는 개인정보 덩어리라서 <strong>누가 무엇을 볼 수 있는지</strong>, <strong>데이터를 어떻게 지킬지</strong>가 화면보다 훨씬 중요하겠다는 생각이 들었어요.</p>
+
+      <blockquote>
+        <p>🎯 <strong>목표</strong>: 더 배워서 연결과 보안까지 <strong>빈틈없이</strong> 해내는 HR 앱 만들기!</p>
+      </blockquote>
+
+      <h2>마무리 🌱</h2>
+      <p>게임 세 개, Todo 앱 한 개, 그리고 HR 앱 구조도 한 장. 화면은 생각보다 쉬웠고, 연결과 배포는 생각보다 어려웠던 한 주였습니다.<br>
+      그래도 이제 "친구에게 보낸 링크가 왜 안 열리는지"는 설명할 수 있어요. 😎</p>
+      <p><em>To be continued… 🏃💨</em></p>
+
+      <a class="back" href="../">← 글 목록으로</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2026 AI 도전 일지 · GitHub Pages로 배포</div>
+  </footer>
+</body>
+</html>
