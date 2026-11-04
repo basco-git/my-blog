@@ -139,7 +139,7 @@ article h2 {
   margin: 44px 0 12px;
   letter-spacing: -0.02em;
 }
-article ul { padding-left: 22px; }
+article ul, article ol { padding-left: 22px; }
 article li { margin: 6px 0; }
 
 code {

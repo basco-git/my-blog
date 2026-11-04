@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[아이펠 AI에이전트 3기] 프로젝트 회고 ① Todo 앱, 설정 한 줄로 DB를 갈아 끼우기까지 🔁 · AI 도전 일지</title>
+  <meta name="description" content="할 일 앱 하나로 로컬 DB, 클라우드 DB와 RLS, Render 배포, AI 도구 연동까지 서비스 한 사이클을 돌아본 프로젝트 회고">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../">AI 도전<span> 일지</span></a>
+      <nav>
+        <a href="../">글 목록</a>
+        <a href="https://github.com/basco-git/my-blog">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article>
+      <div class="meta">
+        <time datetime="2026-11-04">2026년 11월 4일</time>
+        <span class="tag">아이펠</span>
+        <span class="tag">AI에이전트</span>
+        <span class="tag">프로젝트 회고</span>
+      </div>
+      <h1>[아이펠 AI에이전트 3기] 프로젝트 회고 ① Todo 앱, 설정 한 줄로 DB를 갈아 끼우기까지 🔁</h1>
+
+      <!-- 본문은 같은 이름의 .md(Velog용)와 내용·구조를 맞춘다 -->
+      <p class="emoji-line">📝 ➡️ 🗄️ ➡️ ☁️ ➡️ 🤖</p>
+      <p>안녕하세요! 👋 블로그 챌린지 첫 글로, 아이펠에서 처음으로 <strong>만들고, 연결하고, 배포까지 끝낸</strong> 프로젝트를 돌아봅니다.<br>
+      흔한 할 일 앱 하나로 <strong>내 컴퓨터 → 클라우드 DB → 누구나 여는 주소 → AI 도구 연동</strong>까지, 서비스 한 사이클을 끝까지 돌아 본 기록이에요.</p>
+
+      <blockquote>
+        <p>🔗 <strong>배포 주소</strong>: <a href="https://basco-todo.onrender.com">https://basco-todo.onrender.com</a><br>
+        (무료 서버라 한동안 아무도 안 들어오면 잠들어요. 첫 접속에 30초~1분 걸려요 😴)</p>
+      </blockquote>
+
+      <h2>한눈에 보기 📌</h2>
+
+      <table>
+        <thead><tr><th>항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>기간</td><td>2026-10-29 ~ 11-02 (본 과제 + AI 도구 연동 서브 퀘스트)</td></tr>
+          <tr><td>형태</td><td>개인 과제 + 짝꿍과 서로 코드 리뷰</td></tr>
+          <tr><td>내 역할</td><td>기획(PRD) · DB 설계 · 백엔드 · 화면 · 배포 · 검증 (Claude Code와 함께)</td></tr>
+          <tr><td>기술</td><td>Python Flask, HTML·JS, SQLite → Supabase(PostgreSQL · Auth · RLS), Render</td></tr>
+          <tr><td>결과</td><td>로컬·클라우드 모두 완료 기준 통과, 다른 계정에서 내 할 일 0개 확인, 배포 완료</td></tr>
+        </tbody>
+      </table>
+
+      <h2>1. 문제 정의: 할 일 앱, 그런데 "진짜 서비스"처럼 🎯</h2>
+
+      <p>Todo 앱은 세상에 정말 많죠. 그래서 이번 과제의 핵심은 기능 개수가 아니라 <strong>서비스 한 바퀴</strong>였어요.<br>
+      시작하면서 스스로에게 던진 질문은 세 가지였습니다.</p>
+
+      <table>
+        <thead><tr><th>질문</th><th>확인할 것</th></tr></thead>
+        <tbody>
+          <tr><td>🗄️ 서버를 껐다 켜도 할 일이 남을까?</td><td><strong>저장</strong>: 새로고침·재시작 뒤에도 데이터 유지</td></tr>
+          <tr><td>🔐 다른 사람이 로그인하면 내 할 일이 안 보일까?</td><td><strong>권한</strong>: 로그인한 본인의 데이터만</td></tr>
+          <tr><td>🤖 AI에게 내 데이터를 맡겨도 안전할까?</td><td><strong>AI 연동</strong>: AI도 화면과 똑같은 검사를 거치게</td></tr>
+        </tbody>
+      </table>
+
+      <p>기능은 할 일 추가·완료·삭제에 마감일 색 표시, 태그, 오늘의 할 일, 검색, 그리고 <strong>기간 재설정(미룬 이유와 횟수 기록)</strong> 까지 넣었어요. 미룬 횟수가 쌓이는 걸 보면 저절로 반성하게 돼요. 😇<br>
+      대신 알림, 반복 일정, 공유는 처음부터 <strong>범위 밖</strong>으로 뺐어요.</p>
+
+      <h2>2. 내가 맡은 역할과 직접 구현한 기능 🛠️</h2>
+
+      <p>개인 과제라 기획부터 배포까지 전부 제 몫이었어요. 코드는 Claude Code와 함께 썼지만, <strong>무엇을 만들지 정하고 된 것을 확인하는 건</strong> 제가 했어요.</p>
+
+      <table>
+        <thead><tr><th>역할</th><th>한 일</th></tr></thead>
+        <tbody>
+          <tr><td>📋 기획</td><td>PRD 작성: 기능, 저장 요구사항, 규칙(무료 도구만, 비밀값은 <code>.env</code>), 완료 기준</td></tr>
+          <tr><td>🗄️ DB 설계</td><td>코드보다 <strong>구조도(ERD)를 먼저</strong>. 할 일 · 태그 · 할 일↔태그 연결 · 마감일 변경 기록, 표 4개</td></tr>
+          <tr><td>⚙️ 백엔드</td><td>Flask API(할 일·태그·마감일 재설정·로그인), 저장소 모듈 2개(SQLite용 · Supabase용)</td></tr>
+          <tr><td>🔐 보안</td><td>Supabase Auth 로그인, 모든 표에 RLS(<code>user_id = auth.uid()</code>), 관리자 키(service_role) 쓰지 않기</td></tr>
+          <tr><td>🌐 배포</td><td><code>render.yaml</code> 한 파일로 Render 배포, Supabase 인증 설정 정리</td></tr>
+          <tr><td>🤖 AI 연동</td><td>터미널 명령 <code>todo</code>, 작업 규칙 <code>AGENTS.md</code>, 스킬 <code>todo-summary</code>, MCP 서버 <code>todo-files</code></td></tr>
+        </tbody>
+      </table>
+
+      <h2>3. 기술적 수행 과정 🧭</h2>
+
+      <p>한 번에 다 만들지 않고, <strong>길 A → 길 B → 배포 → 길 C</strong> 순서로 단계마다 확인하며 키워 갔어요.</p>
+
+      <table>
+        <thead><tr><th>단계</th><th>한 일</th><th>확인한 것</th></tr></thead>
+        <tbody>
+          <tr><td>💻 길 A</td><td>로컬 SQLite 파일 하나로 완성</td><td>서버 끄고 켜도 할 일 3개 그대로</td></tr>
+          <tr><td>☁️ 길 B</td><td>Supabase + 이메일 로그인 + RLS</td><td>계정 B로 들어가면 A의 할 일 0개</td></tr>
+          <tr><td>🌐 배포</td><td>Render 무료 플랜에 길 B만 배포</td><td>공개 주소에서 열림, 비로그인 요청 차단</td></tr>
+          <tr><td>🤖 길 C</td><td>AI 도구가 할 일을 다루는 통로 만들기</td><td>AI도 로그인·RLS를 거쳐야만 데이터 접근</td></tr>
+        </tbody>
+      </table>
+
+      <h3>💡 설계 포인트 ① 저장소만 갈아 끼우기</h3>
+
+      <p>길 A에서 길 B로 넘어갈 때 <strong>화면과 API 코드는 한 줄도 바꾸지 않게</strong> 만들었어요. 바뀌는 건 백엔드의 저장소 모듈뿐이에요.</p>
+
+      <pre><code>브라우저 → /api/* → app.py ─┬→ store_sqlite.py   → todo.db (내 컴퓨터)
+                            └→ store_supabase.py → Supabase (RLS가 지킴)</code></pre>
+
+      <pre><code># .env 한 줄로 전환
+DB_BACKEND=sqlite     # 길 A
+DB_BACKEND=supabase   # 길 B</code></pre>
+
+      <p>HR로 치면 <strong>업무 절차는 그대로 두고 보관 창고만 옮긴</strong> 셈이에요. 창고를 옮겼다고 결재 라인을 다시 짤 필요는 없으니까요.</p>
+
+      <h3>💡 설계 포인트 ② AI용 뒷문을 따로 만들지 않기</h3>
+
+      <p>길 C에서는 Claude Code 같은 AI 도구도 할 일을 다룰 수 있게 했어요. 가장 쉬운 방법은 AI에게 DB 파일을 그냥 열어 주는 거지만, 그러면 화면에서 하던 <strong>입력 검사·로그인·RLS를 전부 건너뛰게</strong> 돼요.</p>
+
+      <p>그래서 터미널 명령 <code>todo</code>가 <strong>웹 화면과 똑같은 API를 그대로 부르게</strong> 만들었어요. AI 전용 통로가 없으니 지켜야 할 규칙도 한 벌이면 돼요.</p>
+
+      <table>
+        <thead><tr><th>장치</th><th>하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>⌨️ <code>todo</code> 명령</td><td>add · list · done · summary. 앱 API를 그대로 불러 같은 검사 적용</td></tr>
+          <tr><td>📜 <code>AGENTS.md</code></td><td>데이터는 <code>todo</code> 명령으로만, 바꾸거나 지우기 전엔 반드시 확인, 비밀값 출력 금지</td></tr>
+          <tr><td>✨ 스킬 <code>todo-summary</code></td><td>오늘 완료한 일을 커밋 메시지 형식으로 정리</td></tr>
+          <tr><td>📂 MCP <code>todo-files</code></td><td><code>docs</code>·<code>frontend</code>·<code>backend</code> 폴더만 열기. <code>.env</code>·<code>todo.db</code>가 있는 폴더는 <code>Access denied</code></td></tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <p>🙋 실제로 "이 파일 지워 줘"라고 했더니, AI가 바로 지우지 않고 <strong>경로·크기·내용·git 추적 여부</strong>를 먼저 보여 주고 확인을 받았어요. 덕분에 이름이 비슷한 다른 파일을 지울 뻔한 걸 미리 알 수 있었어요.</p>
+      </blockquote>
+
+      <h2>4. 문제 해결 경험 🔧</h2>
+
+      <h3>① 날짜 검사에 구멍이 있었다</h3>
+
+      <p>PRD에 "날짜는 날짜 형식으로 저장하고, 틀린 값은 거부"라고 적었는데, <strong>SQLite에는 날짜 타입이 따로 없어요.</strong> 그래서 형식 검사(CHECK)로 막기로 했죠.<br>
+      그런데 처음 만든 검사는 <strong>잘못된 날짜도 통과</strong>시키고 있었어요. 코드를 읽어서는 몰랐고, 실제로 이상한 날짜를 넣어 보는 테스트에서 드러났어요.</p>
+
+      <pre><code>-- 날짜로 바꿔 본 값이 원래 값과 똑같을 때만 통과
+due_date DATE CHECK (due_date IS NULL OR date(due_date) IS due_date)</code></pre>
+
+      <blockquote>
+        <p>💡 <strong>배운 것</strong>: "검사를 만들었다"와 "검사가 막는다"는 다른 이야기예요. 막아야 할 값을 <strong>직접 넣어 봐야</strong> 알 수 있어요.</p>
+      </blockquote>
+
+      <h3>② 배포했더니 인증 메일이 <code>localhost</code>로 갔다</h3>
+
+      <p>Render 배포까지 마치고 새 계정으로 가입해 봤는데, 인증 메일의 링크를 누르니 <code>localhost</code>로 가 버렸어요. 😵<br>
+      원인은 코드가 아니라 <strong>Supabase 대시보드의 Site URL 설정</strong>이었어요. 배포 주소로 바꾸고 나서야 가입이 제대로 이어졌어요.</p>
+
+      <blockquote>
+        <p>💡 <strong>배운 것</strong>: 배포는 코드만 올리는 게 아니에요. <strong>코드 밖에 있는 설정</strong>(인증 주소, 비밀값, 무료 서버 잠들기)까지 함께 옮겨야 해요.</p>
+      </blockquote>
+
+      <h3>③ <code>.bat</code> 파일이 한글 주석을 명령으로 읽었다</h3>
+
+      <p>더블클릭으로 앱을 켜는 <code>start.bat</code>, 터미널 명령 <code>todo.bat</code>을 만들었는데, cmd가 <strong>한글 주석 줄을 명령으로 읽고</strong> 오류를 냈어요.<br>
+      원인은 줄바꿈 방식이었어요. 파일이 LF로 저장돼 있었는데, cmd는 CRLF를 기대해요. CRLF로 바꿔 해결하고, 같은 실수를 반복하지 않게 <strong><code>AGENTS.md</code>에 규칙으로 남겼어요.</strong></p>
+
+      <h3>④ 캡처에는 있는데 저장소에는 없던 스킬 파일</h3>
+
+      <p>제출 직전 점검에서 깜짝 놀랐어요. 스킬이 실행되는 캡처는 문서에 있는데, 정작 <strong>스킬 파일이 저장소에 없었어요.</strong><br>
+      저장소의 <code>.gitignore</code>가 <code>.claude/</code> 폴더를 통째로 빼고 있었던 거예요. 점검을 안 했다면 "캡처만 있고 파일은 없는" 상태로 제출할 뻔했어요.</p>
+
+      <blockquote>
+        <p>💡 <strong>배운 것</strong>: 문서에 건 링크가 <strong>실제로 git에 올라가 있는지</strong> 확인하는 단계가 필요해요. 그래서 이후에는 제출 전 점검을 스킬로 만들어 매번 돌리고 있어요.</p>
+      </blockquote>
+
+      <h3>⑤ AI가 대신 못 하는 일은 사람 몫</h3>
+
+      <table>
+        <thead><tr><th>막힌 곳</th><th>해결</th></tr></thead>
+        <tbody>
+          <tr><td>Supabase 대시보드 화면이 안내와 달라 설정 위치를 못 찾음</td><td>안내와 다른 화면에서 메뉴를 하나씩 직접 찾아감</td></tr>
+          <tr><td>SQL Editor에 파일 <strong>내용</strong> 대신 파일 <strong>경로</strong>를 붙여 넣음 😂</td><td>오류 문구를 다시 읽고 내가 뭘 넣었는지부터 확인</td></tr>
+          <tr><td>Render 저장소 연결 화면에서 막힘</td><td>공개 저장소 주소를 직접 붙여 넣는 방법으로 해결</td></tr>
+        </tbody>
+      </table>
+
+      <p>계정 만들기, 키 확인, 회원가입은 AI가 대신할 수 없어요. 이 부분에서 가장 오래 헤맸고, 그만큼 서비스가 어떤 부품으로 이어져 있는지 몸으로 익혔어요.</p>
+
+      <h2>5. 협업: 짝꿍과 서로 코드 리뷰 👥</h2>
+
+      <p>과제 마지막에는 짝을 정해 서로의 GitHub 저장소를 공유하고, <strong>Claude로 상대 코드를 리뷰한 뒤 그 내용을 전달</strong>했어요.</p>
+
+      <p>짝꿍은 Todo 앱에 <strong>구글 캘린더 연동</strong>까지 도전하고 있었어요. 같은 과제를 받았는데 저는 "할 일을 잘 저장하기"에 집중했고, 짝꿍은 "할 일을 내 일정과 잇기"를 상상했더라고요.<br>
+      외부 서비스를 연결하는 코드는 인증과 권한이 얽혀 까다로워서, 리뷰하면서 저도 덩달아 공부가 됐어요.</p>
+
+      <blockquote>
+        <p>💡 <strong>느낀 점</strong>: 남의 코드를 리뷰하려면 <strong>상대가 무엇을 만들려 했는지</strong>부터 이해해야 해요. 면접에서 지원자의 이력서를 읽기 전에 직무 기술서를 먼저 보는 것과 비슷했어요.</p>
+      </blockquote>
+
+      <h2>6. 회고 🌱</h2>
+
+      <table>
+        <thead><tr><th></th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>👍 <strong>Keep</strong></td><td>코드보다 DB 구조도를 먼저 받고, "전체 계획 + 단계마다 확인할 것"을 요청하니 어디까지 됐는지 늘 분명했어요</td></tr>
+          <tr><td>👍 <strong>Keep</strong></td><td>RLS는 Supabase에 올리기 전에 내 컴퓨터의 PostgreSQL로 먼저 검증받아, 실제 적용은 한 번에 성공했어요</td></tr>
+          <tr><td>👍 <strong>Keep</strong></td><td>"된다"는 말 대신 계정 두 개로 직접 들어가 보고, 비로그인 요청을 막는지 스크립트(2/2 통과)로 확인했어요</td></tr>
+          <tr><td>🤔 <strong>Problem</strong></td><td>삭제 확인 <strong>창</strong>만 찍고 삭제 <strong>결과</strong>는 안 찍어 캡처를 다시 했어요. 증빙은 결과가 보이는 화면이어야 해요</td></tr>
+          <tr><td>🤔 <strong>Problem</strong></td><td>공개 저장소에 올릴 캡처에 이메일이 보였어요. 올리기 전에 개인정보를 확인하는 습관이 필요해요</td></tr>
+          <tr><td>🚀 <strong>Try</strong></td><td>제출 전 점검(링크·비밀값·이미지 정보)을 매번 자동으로 돌리기</td></tr>
+        </tbody>
+      </table>
+
+      <p>처음 PRD에서는 배포를 범위 밖으로 뺐었어요. 그런데 끝까지 가 보니, 서비스는 <strong>남이 열 수 있어야</strong> 비로소 서비스더라고요.<br>
+      게임과 블로그는 HTML만 있어 GitHub Pages에 바로 올라갔지만, Todo 앱은 서버가 계속 돌아야 해서 따로 서버를 빌려야 했어요. 이 차이를 직접 겪어 본 게 이번 과제의 가장 큰 수확이에요.</p>
+
+      <h2>7. 더 알아보고 싶은 것 &amp; 다음 목표 🎯</h2>
+
+      <ul>
+        <li>🔐 <strong>역할별 권한(RLS 심화)</strong>: 지금은 "내 것만 보기"였지만, 실제 회사에서는 "팀장은 팀원 것까지 보기"처럼 권한이 계단식이에요. 다음 HR 앱에 꼭 필요해요.</li>
+        <li>🧪 <strong>자동 테스트</strong>: 손으로 확인하던 것들(재시작 뒤 유지, 다른 계정 차단)을 올릴 때마다 자동으로 돌리기</li>
+        <li>🌐 <strong>운영 비용과 잠들지 않는 서버</strong>: 무료 서버가 잠드는 문제를 실제 서비스라면 어떻게 풀어야 할지</li>
+        <li>🔔 <strong>범위 밖이었던 기능</strong>: 알림과 반복 일정</li>
+      </ul>
+
+      <blockquote>
+        <p>🎯 <strong>목표</strong>: 이번에 익힌 <strong>저장 → 권한 → 배포 → AI 연동</strong> 한 바퀴를, 개인정보를 다루는 HR 앱에서 빈틈없이 다시 돌아 보기!</p>
+      </blockquote>
+
+      <h2>마무리 🌱</h2>
+
+      <p>할 일 앱 하나로 이렇게 많은 걸 배울 줄은 몰랐어요.<br>
+      화면은 하루 만에 나왔지만, <strong>진짜 주소에서 열리고, 내 데이터는 나만 보고, AI에게 맡겨도 안전한 앱</strong>이 되기까지는 훨씬 긴 시간이 걸렸어요. 그 긴 시간이 곧 서비스를 만든다는 것의 의미였던 것 같아요.</p>
+
+      <p><em>To be continued… 🏃💨</em></p>
+
+      <a class="back" href="../">← 글 목록으로</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2026 AI 도전 일지 · GitHub Pages로 배포</div>
+  </footer>
+</body>
+</html>
