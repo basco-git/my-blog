@@ -205,3 +205,8 @@ article td:first-child { white-space: nowrap; }
   color: var(--muted);
   font-size: 14px;
 }
+
+/* 글 안 사진 */
+article figure { margin: 24px 0; }
+article figure img { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 8px; }
+article figcaption { margin-top: 8px; font-size: 0.9em; color: #6b7280; text-align: center; }

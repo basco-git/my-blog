@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[아이펠 AI에이전트 3기] AI 이해하고 사용하기 ①, 신뢰도 0.96도 틀릴 수 있어요 🔍 · AI 도전 일지</title>
+  <meta name="description" content="학습·트랜스포머·로컬 LLM·이미지 읽기를 배우고, 100년 전 인구조사 표를 OCR로 되살리며 원본 대조의 힘을 배운 기록">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../">AI 도전<span> 일지</span></a>
+      <nav>
+        <a href="../">글 목록</a>
+        <a href="https://github.com/basco-git/my-blog">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article>
+      <div class="meta">
+        <time datetime="2026-11-16">2026년 11월 16일</time>
+        <span class="tag">아이펠</span>
+        <span class="tag">AI에이전트</span>
+        <span class="tag">회고</span>
+      </div>
+      <h1>[아이펠 AI에이전트 3기] AI 이해하고 사용하기 ①, 신뢰도 0.96도 틀릴 수 있어요 🔍</h1>
+
+      <!-- 본문은 같은 이름의 .md(Velog용)와 내용·구조를 맞춘다 -->
+      <p class="emoji-line">🔢 ➡️ 🧠 ➡️ 🔍</p>
+      <p>안녕하세요! 👋 아이펠 AI에이전트 3기, 이번 주부터 드디어 <strong>"AI 이해하고 사용하기"</strong> 모듈이 시작됐어요.<br>
+웹 서비스를 만들던 손을 잠깐 멈추고, 내가 매일 쓰는 AI가 <strong>속에서 무슨 일을 하는지</strong> 들여다본 한 주였습니다.</p>
+
+      <h2>1. 이번 주에 배운 것: AI는 어떻게 배우고, 읽고, 답할까 🧠</h2>
+      <p>교안 다섯 개가 한 줄로 이어졌어요. <strong>숫자로 배우고 → 글을 이해하고 → 어디서 돌릴지 정하고 → 이미지를 읽는</strong> 흐름이에요.</p>
+      <table>
+        <thead><tr><th>교안</th><th>한 줄 요약</th></tr></thead>
+        <tbody>
+          <tr><td>🔢 <strong>인공지능의 학습</strong></td><td>규칙을 짜는 대신, 데이터에서 "예측 → 오차 → 조정"을 반복해 규칙을 스스로 찾게 하기</td></tr>
+          <tr><td>🔗 <strong>트랜스포머 직관</strong></td><td>글을 토큰으로 자르고, 서로 참고(어텐션)해서, 다음 토큰 하나를 예측하는 일을 반복</td></tr>
+          <tr><td>🔬 <strong>어텐션 해부도</strong></td><td>다섯 토큰의 실제 숫자로 Q·K·V → 점수 → 비율 → 섞기를 한 단계씩 따라가기</td></tr>
+          <tr><td>💻 <strong>LLM과 로컬 실행</strong></td><td>클라우드 API냐 내 컴퓨터냐, 데이터·비용·주권으로 실행 위치를 판단하기</td></tr>
+          <tr><td>🖼️ <strong>AI가 이미지를 읽기까지</strong></td><td>값·위치·경계 중 필요한 출력을 먼저 정하고, 원본으로 돌아가 검증하기</td></tr>
+        </tbody>
+      </table>
+      <h3>🔢 학습은 결국 "틀린 만큼 조금 고치기"</h3>
+      <p>카페 30일치 매출 데이터만 보고, 숨은 규칙(2x+1)을 모델이 <strong>스스로</strong> 찾아내는 실습이 있었어요.<br>
+weight 하나, bias 하나짜리 아주 작은 모델인데도, 틀린 만큼 고치기를 600번 반복하면 숨은 규칙에 가까워져요.</p>
+      <p><strong>① 예측한다</strong> → <strong>② 얼마나 틀렸는지 잰다</strong> → <strong>③ 틀린 만큼 조금 고친다</strong> → 반복 🔁</p>
+      <p>회귀(얼마인가)도, 분류(어느 쪽인가)도, 남이 학습시킨 모델을 물려받는 파인튜닝도 모두 이 고리 위에서 움직인대요.<br>
+그리고 교안이 계속 강조한 한 문장. <strong>결과를 가르는 건 화려한 모델보다 데이터</strong>예요.</p>
+      <h3>🔗 토큰이 두 배면, 계산은 네 배</h3>
+      <p>트랜스포머는 모든 토큰이 <strong>서로를 한 번씩 비교</strong>해요. 그래서 입력이 두 배로 길어지면 비교할 짝은 네 배 가까이 늘어나요.<br>
+"그냥 자료를 다 넣어 주면 알아서 잘 하겠지"가 왜 비싼지 처음으로 이해가 됐어요. 💸</p>
+      <p>게다가 많이 넣는다고 다 잘 쓰는 것도 아니래요. 긴 입력의 <strong>중간에 있는 정보를 놓치는 현상(Lost in the Middle)</strong> 이 있어서, 중요한 내용은 어디에 둘지까지 내가 설계해야 해요.</p>
+      <blockquote>
+        <p>💡 <strong>HR식으로 이해하기</strong>: 80쪽짜리 보고서를 통째로 올려도, 결재권자는 앞 요약과 끝 결론만 기억하는 것과 비슷해요. 중요한 건 <strong>위치를 정해서</strong> 올려야 하더라고요.</p>
+      </blockquote>
+      <h3>💻 "학습에 안 쓴다"와 "남지 않는다"는 다른 말</h3>
+      <p>로컬 LLM 수업에서는 70억 개 파라미터 모델(약 14GB)을 <strong>양자화</strong>로 줄이면 노트북에도 올라간다는 걸 배웠어요. 가중치의 눈금을 거칠게 해서 크기를 줄이는 방식이에요.</p>
+      <p>그래서 수업 중에 <strong>Ollama</strong>로 가장 가벼운 모델(<code>qwen3.5:0.8b</code>)을 소개받아 제 노트북에 직접 설치해 봤어요.</p>
+      <pre><code>ollama run qwen3.5:0.8b</code></pre>
+      <p>결과는… 답이 나오기까지 너무 느려서 결국 <strong>삭제</strong>했어요. 😅<br>
+가벼운 버전이라 그런지 답의 품질도 평소 쓰는 Claude나 GPT에는 한참 못 미쳤고요. 로컬 LLM을 제대로 쓰려면 <strong>컴퓨터 성능이 받쳐 줘야 한다</strong>는 걸 직접 느꼈어요. "내 컴퓨터에서 돌리면 공짜"가 아니라, 장비 값과 기다리는 시간이라는 비용을 내는 거였어요.</p>
+      <p>그런데 제일 오래 남은 건 기술보다 <strong>판단 기준</strong> 쪽이었어요.</p>
+      <table>
+        <thead><tr><th>따질 것</th><th>질문</th></tr></thead>
+        <tbody>
+          <tr><td>🗂️ <strong>데이터</strong></td><td>내 문장이 어디를 지나고, 어디에 얼마나 남는가?</td></tr>
+          <tr><td>💰 <strong>비용</strong></td><td>청구서가 없어도 장비·사람 시간이라는 비용이 있지 않은가?</td></tr>
+          <tr><td>🛡️ <strong>주권</strong></td><td>모델이 바뀌거나 멈추면, 누가 바꾸고 멈추고 설명할 수 있는가?</td></tr>
+        </tbody>
+      </table>
+      <blockquote>
+        <p>💡 <strong>HR 15년 차의 생각</strong>: 인사 데이터는 개인정보 덩어리예요. "학습에 쓰지 않습니다"라는 약관 한 줄만 보고 평가 의견을 API에 보내면 안 되겠다는 생각이 들었어요. 로그·보관 기간·저장 위치까지 확인할 것들이 따로 있었어요.</p>
+      </blockquote>
+      <h3>🖼️ 이미지를 읽기 전에, 받고 싶은 답의 모양부터</h3>
+      <p>같은 사진이라도 필요한 답은 다 달라요.</p>
+      <ul>
+        <li>📄 <strong>값</strong>이 필요하면 → OCR (글자를 읽고, 항목과 값을 연결)</li>
+        <li>📦 <strong>위치</strong>가 필요하면 → 객체 탐지 (이름·박스·점수)</li>
+        <li>✂️ <strong>경계</strong>가 필요하면 → 이미지 분할 (픽셀 단위 마스크)</li>
+      </ul>
+      <p>그리고 모델을 재는 눈금도 배웠어요. 임계값을 올리면 화면은 깔끔해지지만 <strong>놓치는 것(미탐)</strong> 이 늘어나고, 내리면 <strong>헛것(오탐)</strong> 이 늘어나요. 화면이 깔끔한 것과 업무에서 안전한 건 다른 얘기더라고요.</p>
+
+      <h2>2. 과제: 100년 전 인구조사 표를 OCR로 되살리기 📜</h2>
+      <p>선택 과제 두 개 중 저는 <strong>B. OCR 표 복원</strong>을 골랐어요. 1913년에 발행된 미국 인구조사 보고서의 표(Table 1)를 PaddleOCR로 읽어, 행과 열이 맞는 CSV와 문서로 만드는 과제예요.</p>
+      <h3>😅 먼저, 기능 많은 웹 서비스부터 만들었는데…</h3>
+      <p>의욕이 넘쳐서 과제 기준을 꼼꼼히 읽기 전에 <strong>OCR 웹 서비스</strong>부터 만들었어요.<br>
+여러 장 한꺼번에 올리기, 끌어다 놓기, 표를 CSV로 뽑기, 이미지 자동 보정(신뢰도 59% → 66%)까지 넣고 GitHub Pages에도 올렸어요.</p>
+      <p>그런데 다 만들고 과제 기준과 나란히 놓아 보니…</p>
+      <blockquote>
+        <p>🤔 기능은 많은데, 과제가 묻는 <strong>"원본으로 돌아갈 수 있는 근거"</strong> 가 하나도 없었어요.</p>
+      </blockquote>
+      <p>원본과 대조한 기록도, "확인 필요" 표시도, 어떤 모델·설정으로 돌렸는지 남긴 실행 기록(manifest)도 없었거든요. 결국 처음부터 과제 기준에 맞춰 다시 만들었어요.</p>
+      <h3>🔍 원본을 확대해 보니 나온 오류들</h3>
+      <p>PaddleOCR로 읽고, 숫자·행 이름·열 제목을 원본과 하나씩 확대해서 대조했어요.</p>
+      <figure><img src="img/ocr-original-vs-table.jpg" alt="원본 표와 복원한 표를 나란히 놓은 검토 화면" loading="lazy"><figcaption>왼쪽은 원본, 오른쪽은 복원한 표. 주황은 고친 칸, 빨강은 확인 필요, 초록은 원본과 대조해 맞은 칸이에요.</figcaption></figure>
+      <table>
+        <thead><tr><th>OCR이 읽은 값</th><th>원본</th><th>무슨 일이?</th></tr></thead>
+        <tbody>
+          <tr><td><code>17, 635, 426</code></td><td>¹7,635,426</td><td>각주 표시 ¹이 숫자 앞에 붙음 😱</td></tr>
+          <tr><td><code>262, 810</code></td><td>²62,810</td><td>각주 표시 ²가 숫자 앞에 붙음</td></tr>
+          <tr><td><code>1.15, 026</code></td><td>115,026</td><td>인쇄 얼룩을 점으로 읽음</td></tr>
+          <tr><td><code>Population: 19010</code></td><td>Population: 1910</td><td>굵은 숫자를 잘못 읽음</td></tr>
+          <tr><td><code>Table l</code></td><td>Table 1</td><td>숫자 1을 영문 l로 읽음</td></tr>
+        </tbody>
+      </table>
+      <h3>😱 제일 위험한 오류는 신뢰도 0.96이었어요</h3>
+      <p>처음엔 0과 O를 헷갈리거나 두 줄이 붙는 오류를 예상했는데, 그런 건 없었어요.<br>
+대신 <strong>각주 표시가 숫자에 붙는 오류</strong>가 나왔고, 이게 제일 무서웠어요. 760만 명이 1,760만 명이 되는 거니까요.</p>
+      <p>더 무서운 건 이 칸의 <strong>신뢰도가 0.96으로 아주 높았다</strong>는 거예요.<br>
+반대로 신뢰도가 낮았던 칸(0.855, 0.908)은 막상 원본과 대 보니 맞게 읽혀 있었어요.</p>
+      <blockquote>
+        <p>💡 <strong>배운 것</strong>: "신뢰도가 낮은 칸만 다시 보면 된다"는 방식으로는 가장 위험한 오류를 못 잡아요. 모델이 <strong>자신 있게 틀릴 수 있다</strong>는 걸 숫자로 확인했어요.</p>
+      </blockquote>
+      <h3>➕ 잡아낸 방법은 표 안의 합계 행</h3>
+      <p>그럼 어떻게 찾았냐면, 이 표에 마침 <strong>합계 행</strong>이 있었어요.<br>
+OCR이 읽은 그대로 속령 인구를 더하면 19,343,221인데, 원본 합계는 9,143,221. 1,000만 명이 넘게 차이가 났어요.<br>
+틀린 칸을 고친 뒤에는 합계 검산 4개가 모두 맞았어요. ✅</p>
+      <blockquote>
+        <p>💡 <strong>HR식으로 이해하기</strong>: 급여 대장을 검토할 때 칸 하나하나보다 <strong>부서 합계와 총액부터 맞춰 보는 것</strong>과 똑같았어요. 합이 안 맞으면 어딘가 틀린 거니까요.</p>
+      </blockquote>
+      <h3>📝 사람이 확인한 값은 덮어쓰이지 않게</h3>
+      <p>원본과 대조한 기록은 코드 안이 아니라 따로 <code>review</code> 파일에 남겼어요.<br>
+나중에 OCR을 다시 돌려서 원시값이 달라지면, 그 칸은 <strong>자동으로 "확인 필요"로 되돌아가게</strong> 했어요. 사람이 확인한 값이 다른 실행 결과에 조용히 덮어씌워지는 일을 막으려고요.</p>
+      <pre><code># ocr_table.py (일부) — 검토 기록이 있는 칸 처리
+rec = by_cell.get((row["name"], key))          # 사람이 원본과 대조한 기록
+if rec:
+    if rec["raw"] != raw:                      # 지금 OCR 값이 검토 때와 다르면
+        value, status = auto or "", "확인 필요"  # 기록을 쓰지 않고 다시 확인 대상으로
+    else:
+        value, status = rec["value"], rec["status"]  # 검토한 값(수정·원본 일치)을 그대로
+elif line and line["score"] &lt; lay["low_score"]:
+    value, status = auto, "확인 필요"            # 신뢰도가 낮은 칸도 확인 대상으로</code></pre>
+      <p>원본에 숫자 없이 점선만 있던 칸 하나는 0인지 "해당 없음"인지 알 수 없어서, 추측하지 않고 <strong>"확인 필요"</strong> 로 남겼어요.</p>
+      <h3>🛠️ 헤맨 곳들</h3>
+      <table>
+        <thead><tr><th>막힌 곳</th><th>무슨 일이 있었나</th><th>배운 것</th></tr></thead>
+        <tbody>
+          <tr><td>🐍 Python 버전</td><td>내 PC의 Python 3.15에는 OCR 라이브러리가 없어서 아예 다른 언어로 웹 서비스를 만듦</td><td><code>uv</code>로 3.12 가상환경을 따로 만들면 됐어요. 이걸 먼저 알았으면 두 번 안 만들었을 텐데 😂</td></tr>
+          <tr><td>💥 첫 실행 오류</td><td>Windows CPU에서 <code>NotImplementedError</code></td><td>설정 하나(<code>enable_mkldnn=False</code>)로 해결</td></tr>
+          <tr><td>🌏 모델 선택</td><td>"영어"만 지정하니 다국어 모델이 골라짐</td><td>과제가 요구한 영어 전용 모델 이름을 직접 지정</td></tr>
+          <tr><td>🖱️ 끌어다 놓기</td><td>웹 서비스에서 파일을 끌어다 놓아도 반응 없음</td><td>투명한 파일 입력창이 영역을 덮고 있었어요. 화면만 봐선 모르는 버그!</td></tr>
+        </tbody>
+      </table>
+
+      <h2>마무리 🌱</h2>
+      <p>이번 주의 한 문장을 고르라면 이거예요.</p>
+      <blockquote>
+        <p>🔍 <strong>AI가 낸 답은 "확인할 거리"지, "확인된 사실"이 아니다.</strong></p>
+      </blockquote>
+      <p>학습은 오차를 줄이는 일이지 없애는 일이 아니고, 긴 입력은 다 읽힌다는 보장이 없고, 신뢰도 0.96도 틀릴 수 있어요.<br>
+코드는 AI가 써 줘도 <strong>원본으로 돌아가 확인하는 건 내 몫</strong>이라는 걸 OCR 표 하나로 제대로 배웠습니다.</p>
+      <p>다음 글에서는 반대로, AI가 <strong>없던 그림과 3D 장면을 만들어 내는</strong> 이야기를 써 볼게요. 🎨🧸</p>
+      <p><em>To be continued… 🏃💨</em></p>
+
+      <a class="back" href="../">← 글 목록으로</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2026 AI 도전 일지 · GitHub Pages로 배포</div>
+  </footer>
+</body>
+</html>
