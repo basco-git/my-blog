@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[아이펠 AI에이전트 3기] AI 이해하고 사용하기 ③, 누구부터, 누가 면담해야 퇴사를 막을까 🤝 · AI 도전 일지</title>
+  <meta name="description" content="HR 15년의 고민을 PoC로: 왜 했나, 어떻게 했나(데이터·분석 기법), 무엇을 확인했나, 어떻게 쓸까. 가상 직원 9,000명으로 누구부터·몇 명을·누가 면담할지 검증한 기록">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="../">AI 도전<span> 일지</span></a>
+      <nav>
+        <a href="../">글 목록</a>
+        <a href="https://github.com/basco-git/my-blog">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article>
+      <div class="meta">
+        <time datetime="2026-11-17">2026년 11월 17일</time>
+        <span class="tag">아이펠</span>
+        <span class="tag">AI에이전트</span>
+        <span class="tag">회고</span>
+      </div>
+      <h1>[아이펠 AI에이전트 3기] AI 이해하고 사용하기 ③, 누구부터, 누가 면담해야 퇴사를 막을까 🤝</h1>
+
+      <!-- 본문은 같은 이름의 .md(Velog용)와 내용·구조를 맞춘다 -->
+      <p class="emoji-line">📊 ➡️ 💰 ➡️ 🤝</p>
+      <p>안녕하세요! 👋 아이펠 AI에이전트 3기, "AI 이해하고 사용하기" 세 번째 이야기예요.<br>
+이번에는 모듈 마무리 과제, <strong>"내 도메인에서 AI로 개선 지점 찾아서 PoC 만들기"</strong> 예요. 제 도메인은 HR 15년이니까, 고민 없이 <strong>퇴사 방지 면담</strong>을 골랐어요. 🙋</p>
+      <p>이 글은 이렇게 흘러가요.</p>
+      <p><strong>🤔 왜 했나</strong> → <strong>🧪 어떻게 했나 (데이터·분석 기법)</strong> → <strong>🔍 무엇을 확인했나</strong> → <strong>🛠️ 어떻게 쓸까</strong></p>
+      <h2>1. 왜 이 실험을 했나 🤔</h2>
+      <h3>퇴사 위험 점수가 있어도 남는 질문</h3>
+      <p>요즘은 "퇴사 위험 점수"를 만드는 일 자체는 어렵지 않아요. 그런데 점수를 받아 든 인사팀에는 질문이 남아요.</p>
+      <ul>
+        <li><strong>누구부터</strong> 면담하지?</li>
+        <li><strong>몇 명이나</strong> 해야 하지?</li>
+        <li><strong>누가</strong>(팀장? 임원?) 면담해야 하지?</li>
+      </ul>
+      <p>특히 실장·본부장·대표 같은 <strong>임원의 면담 시간은 비싸고 적어요.</strong> 아무에게나 쓸 수 없죠.</p>
+      <blockquote>
+        <p>💡 <strong>HR식으로 이해하기</strong>: 제가 겪은 퇴사 사례 7건을 돌아보니, 6건은 <strong>인사 담당자나 인사팀장</strong>이 면담했어요. 그런데 연봉 동결, 연봉 역전, 팀장과의 갈등, 원하는 업무에서 배제 같은 사유는 인사팀이 직접 바꿀 수 없는 것들이에요. 사유를 해결할 <strong>권한이 있는 대표</strong>가 면담한 1건만 퇴사가 6개월 늦춰졌어요.</p>
+      </blockquote>
+      <h3>그래서 세운 가설</h3>
+      <blockquote>
+        <p>🤝 <strong>가설 1:</strong> 위험 점수는 "떠날 가능성"을 알려 줄 뿐, "면담하면 남을지"는 알려 주지 않는다.</p>
+        <p>위험이 높은 사람 중에는 이미 마음을 굳힌 사람도 있고, 이런 사람은 누가 면담해도 남지 않는다.</p>
+        <p>🤝 <strong>가설 2:</strong> 면담 효과는 <strong>누가</strong> 면담하느냐에 따라 달라진다.</p>
+        <p>퇴사 사유를 해결할 권한이 있는 사람이 면담해야 효과가 크다. (연봉 문제는 임원이, 팀장 갈등은 팀장이 아닌 사람이)</p>
+      </blockquote>
+      <p>그리고 오래 품어 온 질문이 하나 더 있었어요. <strong>"사람마다 다른데, 이걸 통계로 잡아낼 수 있을까?"</strong> 이번 실험의 중심 질문이 됐어요.</p>
+      <h3>교안과 연결하면</h3>
+      <table>
+        <thead><tr><th>교안</th><th>이 과제에 가져온 것</th></tr></thead>
+        <tbody>
+          <tr><td>📈 <strong>17번: AI는 어디까지 쓰이고 있을까</strong></td><td>같은 시험 자료로 기준선과 비교하기, 정확도의 함정, 문턱은 사람이 정한다</td></tr>
+          <tr><td>🧭 <strong>18번: 내 업무 어디에 AI를 넣을까</strong></td><td>도구가 아니라 업무의 병목에서 출발하고, 만들기 <strong>전에</strong> 성공 기준을 적고, 구축할지 말지를 정한다</td></tr>
+        </tbody>
+      </table>
+      <p>솔직히 고백하면, 18번 교안은 과제를 거의 다 만든 날 공개됐어요. 그래서 성공 기준은 <strong>"결과를 본 뒤 정리한 것"</strong> 이라고 문서에 그대로 밝혔어요. 숨기는 것보다 그게 맞다고 생각했어요.</p>
+      <h2>2. 어떻게 했나: 데이터 🗂️</h2>
+      <h3>🔒 실제 면담 기록은 쓸 수 없었어요</h3>
+      <p>면담 기록은 회사 안에서도 <strong>볼 수 있는 사람이 정해진 자료</strong>예요.</p>
+      <table>
+        <thead><tr><th>누가</th><th>볼 수 있는 범위</th></tr></thead>
+        <tbody>
+          <tr><td>인사팀 중 권한을 받은 소수</td><td>전체 기록. 인사팀 안에서도 아는 사람을 최소한으로 둬요</td></tr>
+          <tr><td>조직장</td><td>자기 조직 구성원의 면담 내용</td></tr>
+          <tr><td>대표</td><td>전체 (보고서로 요약해 받는 회사도 있어요)</td></tr>
+        </tbody>
+      </table>
+      <p>이런 자료를 누구나 보는 GitHub에 올릴 수는 없죠. 그리고 더 근본적인 문제가 있어요.</p>
+      <blockquote>
+        <p>❓ <strong>"그 사람을 면담했으면 남았을까?"는 실제 기록으로 증명할 수 없어요.</strong> 한 사람에게 면담한 경우와 안 한 경우를 동시에 해 볼 수 없으니까요.</p>
+      </blockquote>
+      <h3>🧑‍💼 그래서 가상 직원 9,000명을 만들었어요</h3>
+      <p>가상 데이터는 직원마다 <strong>"면담했을 때"와 "안 했을 때"의 퇴사 확률을 모두</strong> 알고 있어요. 그래서 어떤 배정 방법이 퇴사를 더 많이 막는지 <strong>채점</strong>할 수 있어요.<br>
+생성 규칙의 방향은 국내 연구에 맞췄어요. 연봉·복지·직무 만족이 낮을수록 이직이 많다는 연구예요(정규직 청년 이직률 대기업 17.2%, 중소기업 약 25%).</p>
+      <p>만든 데이터 몇 줄을 보면 이래요. 만족도는 1~5점이고 낮을수록 불만이에요.</p>
+      <table>
+        <thead><tr><th>직원</th><th>눈에 띄는 사유</th><th style="text-align:right">면담 없을 때 퇴사 확률</th><th style="text-align:right">팀장이 면담하면</th><th style="text-align:right">임원이 면담하면</th></tr></thead>
+        <tbody>
+          <tr><td>#1</td><td>원하는 업무 불만(2)</td><td style="text-align:right">19%</td><td style="text-align:right">7.8%p ↓</td><td style="text-align:right">8.9%p ↓</td></tr>
+          <tr><td>#6777</td><td>연봉 불만(2), <strong>팀장 갈등</strong></td><td style="text-align:right">44%</td><td style="text-align:right"><strong>10.3%p ↑</strong> 😱</td><td style="text-align:right">27.1%p ↓</td></tr>
+          <tr><td>#1330</td><td><strong>팀장 갈등</strong></td><td style="text-align:right">52%</td><td style="text-align:right"><strong>10.1%p ↑</strong> 😱</td><td style="text-align:right">27.8%p ↓</td></tr>
+          <tr><td>#2706</td><td>모든 만족도 1점, 팀장 갈등, <strong>이미 결심</strong></td><td style="text-align:right">90%</td><td style="text-align:right">변화 없음</td><td style="text-align:right">변화 없음</td></tr>
+        </tbody>
+      </table>
+      <p><em>↓는 면담하면 떠날 확률이 내려간다는 뜻(좋음)이고, ↑는 오히려 올라간다는 뜻이에요.</em></p>
+      <p>이 표에 이번 실험의 핵심이 다 들어 있어요.</p>
+      <ul>
+        <li><strong>#6777, #1330</strong>: 팀장과 갈등이 있는 사람에게 <strong>팀장이 면담하면 오히려 떠날 확률이 10%p 오르고</strong>, 임원이 면담하면 27%p 내려가요.</li>
+        <li><strong>#2706</strong>: 퇴사 확률 90%로 가장 위험하지만, 이미 마음을 굳혀서 <strong>어떤 면담도 소용없어요.</strong></li>
+      </ul>
+      <h3>🏢 두 개의 회사(시나리오)</h3>
+      <p>면담 효과 규칙만 다르게 해서 두 회사를 만들었어요. 실제 회사가 어느 쪽인지 모르니까, 두 경우의 결론을 나란히 보기로 했어요.</p>
+      <table>
+        <thead><tr><th></th><th>시나리오 A: 효과 균일</th><th>시나리오 B: 사유 × 권한 궁합</th></tr></thead>
+        <tbody>
+          <tr><td>면담 효과</td><td>누구에게나 같음 (임원은 팀장의 2배)</td><td>사유와 면담자 권한에 따라 다름</td></tr>
+          <tr><td>이미 마음을 굳힌 사람</td><td>없음</td><td>7.1%</td></tr>
+          <tr><td>평균 효과</td><td>같게 맞춤</td><td>같게 맞춤</td></tr>
+        </tbody>
+      </table>
+      <p>시나리오 B는 제 현업 경험을 그대로 코드로 옮긴 거예요.</p>
+      <pre><code># generate_data.py (일부) — 시나리오 B
+# low_x = 불만 정도(0~1).
+# 숫자가 클수록 그 사유일 때 면담 효과가 커요.
+EFFECT_B = {
+    # 팀장: 업무 조정 정도만 가능, 팀장 갈등이면 역효과
+    "lead": {"base": 0.3, "low_job_fit": 0.3,
+             "low_direction": 0.1,
+             "leader_conflict": -0.8, "floor": -0.4},
+    # 임원: 처우·부서 이동·비전 공유 권한
+    "exec": {"base": 0.2, "low_pay": 0.6,
+             "low_job_fit": 0.5, "low_benefits": 0.2,
+             "leader_conflict": 0.7, "low_direction": 0.6},
+}</code></pre>
+      <blockquote>
+        <p>💡 <strong>HR식으로 이해하기</strong>: "연봉 불만(<code>low_pay</code>)은 팀장 칸에 아예 없다"가 제 경험이에요. 팀장은 연봉을 올려 줄 권한이 없으니까요. 대신 임원 칸에는 0.6이 들어가 있어요.</p>
+      </blockquote>
+      <h2>3. 어떻게 했나: 분석 기법 🧪</h2>
+      <p><strong>① 퇴사 위험 점수</strong> → <strong>② 비용으로 면담 인원 정하기</strong> → <strong>③ 면담 효과 예측</strong> → <strong>④ 누가 면담할지 배정</strong> → <strong>⑤ 순이익으로 채점</strong></p>
+      <table>
+        <thead><tr><th>기법</th><th>쉽게 말하면</th><th>왜 골랐나</th></tr></thead>
+        <tbody>
+          <tr><td><strong>로지스틱 회귀</strong> · 랜덤 포레스트 · 부스팅 2종</td><td>면담을 안 하면 떠날 확률(퇴사 위험 점수)을 내는 모델</td><td>교안 17번처럼 같은 시험 자료로 여러 모델을 공정하게 비교</td></tr>
+          <tr><td><strong>TabICL</strong></td><td>미리 학습된 표 데이터 전용 모델(교안 17번)</td><td>성격이 다른 후보도 넣어 보려고</td></tr>
+          <tr><td><strong>확률 보정</strong></td><td>점수 0.3인 사람 중 실제로 약 30%가 떠나도록 맞추기</td><td>비용 계산에 점수를 확률로 써야 해서</td></tr>
+          <tr><td><strong>면담 효과 예측</strong> (업리프트, 두 모델 비교법)</td><td>면담한 사람과 안 한 사람의 모델을 따로 만들어 그 차이를 효과로 봄</td><td>"떠날 사람"이 아니라 "면담하면 남을 사람"을 찾으려고</td></tr>
+          <tr><td><strong>HR 전문가 규칙</strong></td><td>위험 점수 순서에, 사유에 맞는 면담자를 고르는 규칙을 더함</td><td>데이터가 적을 때 현업 지식이 얼마나 통하는지 보려고</td></tr>
+          <tr><td><strong>민감도 분석</strong></td><td>시범 면담 인원을 9천~30만 명으로 바꿔 가며 반복</td><td>"몇 명이면 통계로 잡히나"에 답하려고</td></tr>
+        </tbody>
+      </table>
+      <p>면담 효과 예측은 생각보다 단순해요. 갈래마다 모델을 하나씩 만들고, 같은 사람에 대한 예측의 <strong>차이</strong>를 봐요.</p>
+      <pre><code># train_eval.py (일부, 읽기 쉽게 줄만 나눔)
+# 면담 효과 예측: 두 모델 비교법(T-learner)
+class TLearner:
+    def fit(self, X, talk, y):
+        # 면담 없음 / 팀장 / 임원 갈래마다 모델을 따로 학습
+        self.models = {}
+        for arm in ("none", "lead", "exec"):
+            m = self.make(self.seed)
+            self.models[arm] = m.fit(X[talk == arm], y[talk == arm])
+        return self
+
+    def tau(self, X):
+        p = {arm: m.predict_proba(X)[:, 1]
+             for arm, m in self.models.items()}
+        # 효과 = 면담 안 했을 때 − 면담했을 때 퇴사 확률
+        return {"lead": p["none"] - p["lead"],
+                "exec": p["none"] - p["exec"]}</code></pre>
+      <p>HR 전문가 규칙은 이렇게 생겼어요. <strong>위험 점수 순서</strong>로 보되, 권한이 필요한 사유면 임원에게, 팀장 갈등이 있으면 팀장 면담에서 빼요.</p>
+      <pre><code># allocate.py (일부, 읽기 쉽게 줄만 나눔) — HR 전문가 규칙
+# 1) 위험 점수(AI)가 높은 순으로 줄 세우기
+order = order_desc(risk, tiebreak)
+# 2) 권한이 필요한 사유(연봉·업무·방향 불만, 팀장 갈등)가
+#    있는 사람부터 임원 면담 m명
+need = needs_authority[order] == 1
+ex = np.concatenate([order[need], order[~need]])[:m]
+# 3) 남은 사람 중 팀장 갈등이 없는 사람만 팀장 면담
+rest = [i for i in order
+        if not taken[i] and conflict[i] == 0]</code></pre>
+      <h2>4. 무엇을 확인했나 🔍</h2>
+      <table>
+        <thead><tr><th>질문</th><th>확인한 것</th></tr></thead>
+        <tbody>
+          <tr><td>Q1. 누구부터?</td><td>위험 점수 상위 20%만 면담해도 떠날 사람의 <strong>52%</strong> 를 찾았어요</td></tr>
+          <tr><td>Q2. 몇 명을?</td><td><strong>모델이 아니라 회사 비용</strong>이 정해요</td></tr>
+          <tr><td>Q3·Q5. 누가?</td><td>사유마다 효과가 다른 회사(B)에서는 <strong>사유에 맞는 면담자</strong>가 위험 순보다 <strong>40%</strong> 나았어요</td></tr>
+          <tr><td>Q4. 통계로 잡히나?</td><td><strong>조건부로 예.</strong> 사유별 차이가 크면 시범 기록 9,000명으로도 잡혔어요</td></tr>
+          <tr><td>Q6. 회사 규모가 달라도?</td><td>대기업형·중소기업형 모두 같은 방향이었어요</td></tr>
+        </tbody>
+      </table>
+      <h3>📊 Q1. 누구부터: 가장 단순한 모델이 이겼어요</h3>
+      <table>
+        <thead><tr><th>방법</th><th style="text-align:right">상위 20%를 면담할 때 떠날 사람을 찾은 비율</th></tr></thead>
+        <tbody>
+          <tr><td>아무렇게나 고르기</td><td style="text-align:right">27%</td></tr>
+          <tr><td>근속 짧은 순 (흔히 쓰는 감)</td><td style="text-align:right">19%</td></tr>
+          <tr><td><strong>로지스틱 회귀</strong> (대표 모델)</td><td style="text-align:right"><strong>52%</strong></td></tr>
+        </tbody>
+      </table>
+      <p>"근속이 짧은 사람이 잘 나간다"는 감은 오히려 <strong>아무렇게나 고르는 것보다도 못했어요.</strong> 😳<br>
+그리고 <strong>정확도의 함정</strong>도 직접 봤어요. 퇴사자가 16%뿐이라 "모두 남는다"고만 답해도 정확도가 <strong>84%</strong> 예요. 모델 정확도도 84%대라 정확도로는 아무것도 판단할 수 없었어요.<br>
+TabICL은 로지스틱과 거의 같았는데(시험 AUC 0.795 대 0.793), CPU로 <strong>약 23분</strong>이 걸렸어요. 로지스틱은 몇 초면 끝나요. "비슷하면 단순한 방법"을 그대로 체감했어요.</p>
+      <figure><img src="img/retention-stage1.jpg" alt="1단계 결과 카드" loading="lazy"><figcaption>1단계 카드: 면담 안 하면 떠났을 사람 → 면담 후 재직(예상), 그리고 순이익 계산식까지 보여 줘요.</figcaption></figure>
+      <h3>💰 Q2. 몇 명을: 모델이 아니라 비용이 정해요</h3>
+      <p>면담 1건은 30만 원, 퇴사 1건을 막으면 3,000만 원을 아껴요. 면담으로 막을 확률을 30%로 잡으면 계산은 한 줄이에요.</p>
+      <pre><code># allocate.py (일부) — 비용 기준 선택
+# 퇴사 확률 × 성공률(30%) × 퇴사 1건 비용(3,000만 원)
+#   &gt; 면담 비용(30만 원)인 사람은 모두 면담
+sel = prob * r * c_replace &gt; c_lead
+# → 퇴사 확률이 3.3%만 넘어도 면담하는 쪽이 이득</code></pre>
+      <table>
+        <thead><tr><th>면담 방식</th><th style="text-align:right">면담 인원</th><th style="text-align:right">순이익</th></tr></thead>
+        <tbody>
+          <tr><td>위험 점수 상위 20%</td><td style="text-align:right">216명</td><td style="text-align:right">7.45억 원</td></tr>
+          <tr><td><strong>이득이 나는 사람은 모두</strong> (비용 기준)</td><td style="text-align:right">860명</td><td style="text-align:right"><strong>12.45억 원</strong></td></tr>
+        </tbody>
+      </table>
+      <blockquote>
+        <p>💡 <strong>배운 것</strong>: "AUC가 높아도 문턱은 사람이 정한다"가 이런 뜻이었어요. 몇 명을 면담할지는 모델 성능이 아니라 <strong>회사의 비용 조건</strong>이 정해요.</p>
+      </blockquote>
+      <h3>🤝 Q3·Q5. 누가: 여기서 두 회사가 갈렸어요</h3>
+      <table>
+        <thead><tr><th>방법</th><th style="text-align:right">A 순이익</th><th style="text-align:right">B 순이익</th><th style="text-align:right">B 역효과 우려</th></tr></thead>
+        <tbody>
+          <tr><td>위험 순 (위험한 사람부터 임원 → 팀장)</td><td style="text-align:right"><strong>13.60억</strong></td><td style="text-align:right">12.32억</td><td style="text-align:right">137명</td></tr>
+          <tr><td>위험 점수 + 사유에 맞는 면담자 (HR 규칙)</td><td style="text-align:right">12.88억</td><td style="text-align:right"><strong>17.25억</strong></td><td style="text-align:right">0명</td></tr>
+          <tr><td>면담 효과 예측 (업리프트)</td><td style="text-align:right">11.87억</td><td style="text-align:right">15.23억</td><td style="text-align:right">30명</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><strong>효과가 같은 회사(A)</strong> 에서는 "위험한 사람부터"가 정답이었어요.</li>
+        <li><strong>사유마다 효과가 다른 회사(B)</strong> 에서는 위험 순이 최선의 절반에 그쳤어요. 앞의 #6777 같은 팀장 갈등자에게 팀장 면담을 <strong>137명</strong>이나 배정했거든요.</li>
+      </ul>
+      <figure><img src="img/retention-curve-b.jpg" alt="2단계 순이익 곡선, 시나리오 B" loading="lazy"><figcaption>시나리오 B에서 팀장 면담 비율을 0~100%로 바꿔 본 순이익. 어느 비율에서도 HR 규칙(초록) &gt; 효과 예측(보라) &gt; 위험 순(파랑) 순서가 유지돼요. 맨 위 점선은 진짜 효과를 알 때의 최대치예요.</figcaption></figure>
+      <h3>🧮 Q4. 사람마다 다른 효과, 통계로 잡힐까?</h3>
+      <p>시범 면담 인원과 "사유별 효과 차이"를 바꿔 가며 세 번씩 반복했어요.</p>
+      <figure><img src="img/retention-sensitivity.jpg" alt="민감도 표: 시범 인원 × 궁합 강도" loading="lazy"><figcaption>1보다 크면 데이터로 예측한 효과 순이 위험 순보다 나아요. 연보라 칸이 이긴 칸이에요.</figcaption></figure>
+      <ul>
+        <li>효과 차이가 <strong>없으면(왼쪽 열)</strong> 30만 명이어도 위험 순을 못 넘어요. 잡을 차이가 없으니까요.</li>
+        <li>효과 차이가 <strong>크면(오른쪽 열)</strong> 9,000명부터 세 번 모두 이겼어요.</li>
+      </ul>
+      <p>15년 동안 막연했던 질문에 처음으로 숫자 답이 생겼어요. <strong>"조건부로 예."</strong> 🎯</p>
+      <h3>🔄 반전: "9만 명 필요"라던 결론이 뒤집혔어요</h3>
+      <p>처음에는 "면담 효과를 잡으려면 시범 기록이 <strong>약 9만 명</strong> 필요하다"는 결론이 나왔어요. 그런데 데이터의 나이 분포를 고치고 다시 돌렸더니, 다른 예측 방법이 선택되면서 사유별 효과 차이가 큰 회사라면 <strong>9,000명으로도 충분</strong>해졌어요.<br>
+알고 보니 처음 결론은 예측 방법을 <strong>하나로 고정한 데서</strong> 나온 것이었어요.</p>
+      <blockquote>
+        <p>💡 <strong>배운 것</strong>: 비교 조건 하나를 고정할 때는, 그 조건이 결론을 좌우하지 않는지 먼저 확인해야 해요. 처음 결론을 믿었다면 "데이터가 부족하다"고 잘못 판단할 뻔했어요.</p>
+      </blockquote>
+      <h3>🧓 실패 사례도 모았어요</h3>
+      <ul>
+        <li>임원 면담 135자리 중 <strong>41자리</strong>가 앞의 #2706처럼 이미 마음을 굳힌 사람에게 갔어요. HR 규칙도 이건 못 걸렀어요.</li>
+        <li>실제 퇴사자 중 16%는 위험 점수 하위 절반에 있었어요. 이직 제안, 가족 사정처럼 <strong>설문에 드러나지 않는 사유</strong>는 모델이 원리상 못 잡아요.</li>
+      </ul>
+      <h2>5. 그래서 어떻게 쓸까 🛠️</h2>
+      <h3>📋 현업에서 쓰는 순서</h3>
+      <ol>
+        <li><strong>웹 플래너에 우리 회사 값을 넣어요.</strong> 퇴사 1건 비용, 팀장·임원 면담 비용을 넣으면 "몇 명까지 면담하면 이득인지"가 바로 나와요.</li>
+        <li><strong>위험 점수로 면담 대기 순서를 정해요.</strong> 감이나 근속 대신 점수를 기준으로 삼아요.</li>
+        <li><strong>면담 전에 사유를 확인하고 면담자를 정해요.</strong> 연봉·업무·회사 방향 문제면 처우·부서 이동 권한이 있는 임원이, 팀장 갈등이면 팀장이 <strong>아닌</strong> 사람이 면담해요.</li>
+        <li><strong>일부는 무작위로 나눠 시범 면담을 해요.</strong> 우리 회사가 A인지 B인지는 이 기록으로만 알 수 있어요.</li>
+      </ol>
+      <h3>🚫 하지 말아야 할 것</h3>
+      <blockquote>
+        <p>⚠️ <strong>점수는 면담 대기 순서에만 써요.</strong> 개인 평가·징계·해고에 쓰면 리텐션 도구가 아니라 퇴출 도구가 돼요. 그리고 익명을 약속한 설문을 개인 선정에 쓰면 신뢰가 깨져요.</p>
+      </blockquote>
+      <h3>⚖️ PoC 판정</h3>
+      <p>교안 18번대로 "구축할지 말지"를 정하면 이래요.</p>
+      <table>
+        <thead><tr><th>대상</th><th>판정</th><th>이유</th></tr></thead>
+        <tbody>
+          <tr><td>위험 점수 + 사유 맞춤 면담자</td><td><strong>시범 운영</strong></td><td>기준선을 넘었고, 사유라는 근거가 있어 면담자가 검토할 수 있음</td></tr>
+          <tr><td>면담 효과 예측 모델</td><td><strong>보류</strong></td><td>무작위 시범 면담 기록이 아직 없음. 효과가 같은 회사(A)라면 오히려 손해</td></tr>
+        </tbody>
+      </table>
+      <h2>6. 웹 면담 플래너 🌐</h2>
+      <p>비용과 인원을 바꾸면 결과가 바로 바뀌는 플래너를 GitHub Pages에 올렸어요.</p>
+      <figure><img src="img/retention-stage2-b.jpg" alt="2단계 시나리오 B 결과 카드" loading="lazy"><figcaption>같은 인원으로도 누가 면담하느냐에 따라 순이익이 크게 달라져요. 카드마다 계산식이 같이 나와요.</figcaption></figure>
+      <ul>
+        <li>임원 면담은 비율로 넣으면 인원으로 바꿔 보여 줘요(5% → 135명, <strong>사람이니까 소수점은 버림</strong>).</li>
+        <li>아래로 내려가면 <strong>빠른 입력 막대</strong>가 따라와서, 2단계 결과를 보면서 바로 숫자를 바꿀 수 있어요.</li>
+      </ul>
+      <p>그런데 배포하고 나서 이런 일이 있었어요.</p>
+      <blockquote>
+        <p>🙋 <strong>나</strong>: 바꾸기로 한 게 전혀 반영이 안 되어 있어!</p>
+      </blockquote>
+      <p>서버에는 새 파일이 올라가 있었는데, 브라우저가 <strong>예전 화면 파일을 10분 동안 저장</strong>해 두고 있었던 거예요. 파일 주소에 버전 표시(<code>?v=날짜</code>)를 붙여서 해결했어요. 웹은 "배포했다"와 "사용자가 본다"가 다르더라고요. 😂</p>
+      <h3>🔍 마지막 검토에서 내 설명이 틀린 걸 찾았어요</h3>
+      <p>제출 직전에 검토 에이전트에게 문서를 처음 보는 채점자처럼 읽어 달라고 했어요.</p>
+      <blockquote>
+        <p>🤖 <strong>검토</strong>: "HR 전문가 규칙을 '모델 없이'라고 설명했지만, 코드는 위험 점수 순서를 씁니다."</p>
+      </blockquote>
+      <p>위의 코드 그대로예요. 고치고 나니 오히려 "B에서 가장 나은 방법도 AI를 쓴 방법"이 되어 주장이 더 정확해졌어요. 😮</p>
+      <h2>마무리 🌱</h2>
+      <p>이번 과제를 한 문장으로 정리하면 이거예요.</p>
+      <blockquote>
+        <p>🤝 <strong>면담 플래너는 퇴사 위험 점수로 "누구부터, 몇 명을" 면담할지 정하는 근거를 주고, 퇴사 사유에 따라 "누가" 면담해야 효과가 큰지 보여 준다.</strong></p>
+      </blockquote>
+      <p>다만 가상 데이터 실험이에요. 숫자는 "이런 구조라면"의 답이지, 우리 회사의 답은 아니에요. 그래서 다음 단계는 모델을 더 키우는 게 아니라 <strong>무작위 시범 면담 기록을 쌓는 것</strong>이에요.</p>
+      <p>AI를 넣을 자리는 결국 <strong>"누가 무엇을 결정하는가"</strong> 에서 찾게 되더라고요. 점수는 순서를 정하고, 사유를 듣고 판단하는 건 여전히 사람의 몫이에요. 🎯</p>
+      <ul>
+        <li>🌐 면담 플래너: 퇴사 1건 비용과 면담 비용, 면담 인원을 넣으면 누구부터·누가 면담할지와 예상 순이익을 바로 계산해 주는 웹 도구예요. 위의 결과 카드와 그래프가 이 플래너 화면이에요.</li>
+      </ul>
+      <p><em>To be continued… 🏃💨</em></p>
+
+      <a class="back" href="../">← 글 목록으로</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2026 AI 도전 일지 · GitHub Pages로 배포</div>
+  </footer>
+</body>
+</html>
